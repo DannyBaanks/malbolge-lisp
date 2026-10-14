@@ -2,6 +2,11 @@
 # MalbolgeLISP v1.2
 Made by Iczelia, 2020 - 2021. Core (core.mb) to the public domain, the entire program is governed by the GNU GPLv3 license.
 
+> This repository is a copy of the original **MalbolgeLISP** by Iczelia
+> (formerly `kspalaiologos`): <https://github.com/iczelia/malbolge-lisp>.
+> All credit for the language and its implementation belongs to the original
+> author; the clone command below points to this mirror only for convenience.
+
 ![Session gif](https://github.com/iczelia/malbolge-lisp/raw/master/session.gif)
 
 **[During summer and fall of 2021, I wrote a book about MalbolgeLISP's design and implementation](https://github.com/iczelia/malbolge-lisp/raw/master/MalbolgeLisp.pdf)**
@@ -70,13 +75,24 @@ A cat program that doesn't terminate on EOF:
 (=BA#9"=<;:3y7x54-21q/p-,+*)"!h%B0/.~P<<:(8&66#"!~}|{zyxwvugJk
 ```
 
+## Note on `fast20.c` (Portability Patch & Attribution)
+
+The original MalbolgeLISP interpreter `fast20.c` was authored by **Iczelia (`kspalaiologos`)** under CC0:
+- The pristine upstream source code is preserved untouched as [`fast20_original.c`](fast20_original.c).
+- Modern host environments exposed two portability limitations in upstream:
+  1. **Windows / Cygwin:** `mmap(MAP_FIXED)` over a `PROT_NONE` reservation returned `EINVAL`, trapping the process in an infinite `SIGSEGV` loop at 100% CPU. Replaced with `mprotect(PROT_READ|PROT_WRITE)`.
+  2. **Linux x86_64:** The instruction encryption macro `NXT` indexed directly into the 135-byte translation table in `.rodata` (`xlat[mem[c]]`). When opcodes exceed 134 after `crz` or `rot` operations (e.g. 581M), unpatched code read out-of-bounds past `.rodata`. Added the bounds guard `if (mem[c] < 135)`.
+
+The patched file [`fast20.c`](fast20.c) (also available as [`fast20_fixed.c`](fast20_fixed.c)) applies these two minimal fixes to allow MalbolgeLISP to run out-of-the-box on both modern Linux and Windows at full speed (>320M steps/second). Full forensics and cross-backend test suite: [malbolge-lisp-forensics](https://github.com/DannyBaanks/malbolge-lisp-forensics).
+
 ## How to use
 
 ```
-$ git clone https://github.com/kspalaiologos/malbolge-lisp
+$ git clone https://github.com/DannyBaanks/malbolge-lisp
 $ cd malbolge-lisp
 $ unzip lisp.zip
 $ clang -O3 -march=native fast20.c -o fast20
 $ cat init_module.mb core.mb > lisp.mb
 $ ./fast20 lisp.mb
 ```
+
