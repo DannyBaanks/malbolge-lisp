@@ -1,11 +1,15 @@
 
-# MalbolgeLISP v1.2
-Made by Iczelia, 2020 - 2021. Core (core.mb) to the public domain, the entire program is governed by the GNU GPLv3 license.
+# MalbolgeLISP v2.0 (Portable Multiplatform Release)
 
-> This repository is a copy of the original **MalbolgeLISP** by Iczelia
+[![Version](https://img.shields.io/badge/version-2.0-blue.svg)](https://github.com/DannyBaanks/malbolge-lisp)
+[![Fast20](https://img.shields.io/badge/runtime-fast20%20portable-brightgreen.svg)]()
+[![Model](https://img.shields.io/badge/memory-Unshackled%203%5E19-orange.svg)]()
+
+Original program by Iczelia (2020-2021, GPLv3). Portability maintenance and 64-bit multiplatform Linux runtime by Danny Banks / ISyCo Research.
+
+> This repository is an enhanced, portable release of the original **MalbolgeLISP** by Iczelia
 > (formerly `kspalaiologos`): <https://github.com/iczelia/malbolge-lisp>.
-> All credit for the language and its implementation belongs to the original
-> author; the clone command below points to this mirror only for convenience.
+> Includes native Linux 64-bit portability fixes (`fast20.c`) removing Cygwin dependencies and fixing out-of-bounds pointer bounds.
 
 ![Session gif](https://github.com/iczelia/malbolge-lisp/raw/master/session.gif)
 
